@@ -1,43 +1,41 @@
 package com.devdojo.springboot.service;
 
 import com.devdojo.springboot.domain.Anime;
+import com.devdojo.springboot.dto.AnimePostRequestBody;
+import com.devdojo.springboot.dto.AnimePutRequestBody;
+import com.devdojo.springboot.repository.AnimeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
+@RequiredArgsConstructor
 public class AnimeService {
-    private static ArrayList<Anime> animes = new ArrayList<>(
-            List.of(new Anime(1L, "Boku no Hero"), new Anime(2L, "Berserk"))
-    );
+    private static AnimeRepository animeRepository;
 
-    public static Anime save(Anime anime) {
-        anime.setId(ThreadLocalRandom.current().nextLong(3, 1000000));
-        animes.add(anime);
-        return anime;
+    public List<Anime> listAll(){
+        return animeRepository.findAll();
+    }
+    public static Anime save(AnimePostRequestBody animePostRequestBody) {
+        return animeRepository.save(Anime.builder().name(animePostRequestBody.getName()).build());
     }
 
     public static void delete(long id) {
-        animes.remove(findByID(id));
+        animeRepository.delete(findByIDOrThrowBadRequestException(id));
     }
 
-    public static void replace(Anime anime) {
-        delete(anime.getId());
-        animes.add(anime);
+    public static void replace(AnimePutRequestBody animePutRequestBody) {
+        Anime savedAnime = findByIDOrThrowBadRequestException(animePutRequestBody.getId());
+        Anime anime = Anime.builder()
+                .id(savedAnime.getId())
+                .name(animePutRequestBody.getName())
+                .build();
     }
 
-    public List<Anime> listAll() {
-        return animes;
-    }
-
-    public static Anime findByID(long id) {
-        return animes.stream()
-                .filter(anime -> anime.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+    public static Anime findByIDOrThrowBadRequestException(long id) {
+        return animeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
     }
 }
