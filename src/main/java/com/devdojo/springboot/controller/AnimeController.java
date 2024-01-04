@@ -1,6 +1,6 @@
 package com.devdojo.springboot.controller;
 
-import com.devdojo.springboot.domain.Anime;
+import com.devdojo.springboot.domain.Animes;
 import com.devdojo.springboot.dto.AnimePostRequestBody;
 import com.devdojo.springboot.dto.AnimePutRequestBody;
 import com.devdojo.springboot.service.AnimeService;
@@ -23,26 +23,27 @@ public class AnimeController {
     private final AnimeService animeService;
 
     @GetMapping
-    public ResponseEntity<List<Anime>> list() {
+    public ResponseEntity<List<Animes>> list() {
         log.info(dateUtil.formatLocalDateTimeToDataBaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(animeService.listAll());
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Anime> findByID(@PathVariable long id) {
-        return ResponseEntity.ok(AnimeService.findByIDOrThrowBadRequestException(id));
+    public ResponseEntity<Animes> findByID(@PathVariable long id) {
+        return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody anime){
-        return new ResponseEntity<>(AnimeService.save(anime), HttpStatus.CREATED);
+    public ResponseEntity<Animes> save(@RequestBody AnimePostRequestBody animePostRequestBody){
+        log.info(animePostRequestBody);
+        return new ResponseEntity<>(animeService.save(animePostRequestBody), HttpStatus.CREATED);
     }
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id){
-        AnimeService.delete(id);
+        animeService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping
     public ResponseEntity<Void> replace(@RequestBody AnimePutRequestBody animePutRequestBody){
-        AnimeService.replace(animePutRequestBody);
+        animeService.replace(animePutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
