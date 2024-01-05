@@ -8,5 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnimePostRequestBody {
-    private String nome;
+    private String name;
 }

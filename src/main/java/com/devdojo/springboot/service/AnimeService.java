@@ -3,6 +3,7 @@ package com.devdojo.springboot.service;
 import com.devdojo.springboot.domain.Animes;
 import com.devdojo.springboot.dto.AnimePostRequestBody;
 import com.devdojo.springboot.dto.AnimePutRequestBody;
+import com.devdojo.springboot.exception.BadRequestException;
 import com.devdojo.springboot.mapper.AnimesMapper;
 import com.devdojo.springboot.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,13 @@ public class AnimeService {
     public List<Animes> listAll() {
         return animeRepository.findAll();
     }
+    public List<Animes> findByName(String name) {
+        return animeRepository.findByName(name);
+    }
 
     public Animes findByIdOrThrowBadRequestException(long id) {
         return animeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not Found"));
+                .orElseThrow(() -> new BadRequestException("Anime not Found"));
     }
 
     public Animes save(AnimePostRequestBody animePostRequestBody) {

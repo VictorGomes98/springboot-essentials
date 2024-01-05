@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class AnimePutRequestBody {
     private long id;
-    private String nome;
+    private String name;
 }
