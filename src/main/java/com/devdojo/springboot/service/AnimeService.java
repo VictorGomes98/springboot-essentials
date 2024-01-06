@@ -7,6 +7,8 @@ import com.devdojo.springboot.exception.BadRequestException;
 import com.devdojo.springboot.mapper.AnimesMapper;
 import com.devdojo.springboot.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +22,8 @@ public class AnimeService {
 
     private final AnimeRepository animeRepository;
 
-    public List<Animes> listAll() {
-        return animeRepository.findAll();
+    public Page<Animes> listAll(Pageable pageable) {
+        return animeRepository.findAll(pageable);
     }
     public List<Animes> findByName(String name) {
         return animeRepository.findByName(name);
