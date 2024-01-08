@@ -17,7 +17,7 @@ spring:
           CharSet: UTF 8
           useUnicode: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
 logging:
   level:
