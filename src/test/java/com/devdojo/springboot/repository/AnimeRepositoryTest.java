@@ -1,6 +1,7 @@
 package com.devdojo.springboot.repository;
 
 import com.devdojo.springboot.domain.Animes;
+import com.devdojo.springboot.util.AnimeCreator;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +23,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("Save: persists an anime when successful")
     void save_PersistAnime_WhenSuccessful() {
-        Animes animeToBeSaved = createAnime();
+        Animes animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Animes animeSaved = this.animeRepository.save(animeToBeSaved);
         log.info(animeSaved);
 
@@ -47,7 +48,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("Save: update an anime when successful")
     void save_UpdateAnime_WhenSuccessful() {
-        Animes animeToBeSaved = createAnime();
+        Animes animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Animes animeSaved = this.animeRepository.save(animeToBeSaved);
 
         animeSaved.setName("Attack on titan");
@@ -63,7 +64,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("Delete: delete an anime when successful")
     void delete_RemovesAnime_WhenSuccessful() {
-        Animes animeToBeSaved = createAnime();
+        Animes animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Animes animeSaved = this.animeRepository.save(animeToBeSaved);
 
         this.animeRepository.delete(animeSaved);
@@ -75,7 +76,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("FindByName: returns a list of anime when successful")
     void findByName_returnsListOfAnime_WhenSuccessful() {
-        Animes animeToBeSaved = createAnime();
+        Animes animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Animes animeSaved = this.animeRepository.save(animeToBeSaved);
 
         String name = animeSaved.getName();
@@ -87,7 +88,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("FindByName: returns an empty list of anime when successful")
     void findByName_returnsEmptyListOfAnime_WhenSuccessful() {
-        Animes animeToBeSaved = createAnime();
+        Animes animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Animes animeSaved = this.animeRepository.save(animeToBeSaved);
 
         List<Animes> animes = this.animeRepository.findByName("not an anime");
@@ -95,9 +96,5 @@ class AnimeRepositoryTest {
         Assertions.assertThat(animes).isEmpty();
     }
 
-    Animes createAnime() {
-        return Animes.builder()
-                .name("Shingeki no kyojin")
-                .build();
-    }
+
 }

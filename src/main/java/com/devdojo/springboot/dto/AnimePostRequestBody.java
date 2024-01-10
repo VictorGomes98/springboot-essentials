@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AnimePostRequestBody {
     @NotEmpty(message = "The anime name can't be empty or null")
     private String name;
