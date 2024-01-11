@@ -1,4 +1,4 @@
-<h2>Spring-boot essentials</h2><br><br>
+<h2>Spring-boot essentials</h2>
 
 <h3>A Java study projejec going through the essential features of spring-boot,<br>
 using MVC architeture and best programing practices.</h3><br>
