@@ -50,6 +50,8 @@ class AnimeControllerTest {
 
         BDDMockito.doNothing().when(animeServiceMock).replace(ArgumentMatchers.any(AnimePutRequestBody.class));
 
+        BDDMockito.doNothing().when(animeServiceMock).delete(ArgumentMatchers.anyLong());
+
     }
 
     @Test
@@ -115,7 +117,7 @@ class AnimeControllerTest {
     }
     @Test
     @DisplayName("save: returns an anime when successful")
-    void findByName_ReturnsAnime_WhenSuccessful(){
+    void save_ReturnsAnime_WhenSuccessful(){
         Animes anime = animeController.save(AnimePostRequestBodyCreator.createAnimeToBeSaved()).getBody();
 
         Assertions.assertThat(anime).isNotNull().isEqualTo(AnimeCreator.createValidAnime());
