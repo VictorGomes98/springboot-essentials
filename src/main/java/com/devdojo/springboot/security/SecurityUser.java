@@ -1,6 +1,6 @@
-package com.devdojo.springboot.service;
+package com.devdojo.springboot.security;
 
-import com.devdojo.springboot.domain.User;
+import com.devdojo.springboot.domain.Client;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
-    private final User user;
+    private final Client client;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -18,12 +18,12 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return client.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return client.getUsername();
     }
 
     @Override
