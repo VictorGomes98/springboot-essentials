@@ -1,6 +1,6 @@
 package com.devdojo.springboot.service;
 
-import com.devdojo.springboot.domain.Client;
+import com.devdojo.springboot.domain.User;
 import com.devdojo.springboot.repository.UserRepository;
 import com.devdojo.springboot.security.SecurityUser;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class JpaUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        Optional<Client> user = userRepository.findUserByUsername(username);
+        Optional<User> user = userRepository.findUserByUsername(username);
 
         return user.map(SecurityUser::new)
                 .orElseThrow(() -> new UsernameNotFoundException("Username can not be found"));
