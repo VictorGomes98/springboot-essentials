@@ -21,6 +21,9 @@ spring:
 
 logging:
   level:
+    web: DEBUG
     org:
       hibernate:
         SQL: DEBUG
+
+Key: secureKey

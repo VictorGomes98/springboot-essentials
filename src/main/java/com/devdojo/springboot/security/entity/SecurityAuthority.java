@@ -1,4 +1,4 @@
-package com.devdojo.springboot.security;
+package com.devdojo.springboot.security.entity;
 
 import com.devdojo.springboot.domain.Authority;
 import lombok.AllArgsConstructor;
