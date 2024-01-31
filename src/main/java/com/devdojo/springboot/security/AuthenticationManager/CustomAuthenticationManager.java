@@ -14,7 +14,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if (provider.supports(authentication.getClass())){
+        if (provider.supports(authentication.getClass())) {
             return provider.authenticate(authentication);
         }
         throw new AuthenticationException("Incorrect credential");
