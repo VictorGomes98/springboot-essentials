@@ -1,8 +1,9 @@
-package com.devdojo.springboot.config;
+package com.devdojo.springboot.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,23 +13,38 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SecurityConfig  {
+@EnableMethodSecurity
+public class SecurityConfig {
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                                .anyRequest().authenticated()
-                        )
+                        .anyRequest().authenticated()
+                )
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
+
     @Bean
-    public InMemoryUserDetailsManager userDetailsService(){
+    public InMemoryUserDetailsManager userDetailsService() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails user = User.withUsername("adin")
+        InMemoryUserDetailsManager imudm = new InMemoryUserDetailsManager();
+
+        UserDetails user = User.withUsername("admin")
                 .password(encoder.encode("pass"))
-                .roles("USER")
+                .authorities("read", "write")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+
+        UserDetails user1 = User.withUsername("client")
+                .password(encoder.encode("pass"))
+                .authorities("write")
+                .build();
+
+
+
+        imudm.createUser(user);
+        imudm.createUser(user1);
+
+        return imudm;
     }
 }

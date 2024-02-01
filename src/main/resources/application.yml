@@ -1,6 +1,6 @@
 server:
   error:
-    include-stacktrace: always
+    include-stacktrace: never
 
 spring:
   datasource:
@@ -17,7 +17,7 @@ spring:
           CharSet: UTF 8
           useUnicode: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
 logging:
   level:
