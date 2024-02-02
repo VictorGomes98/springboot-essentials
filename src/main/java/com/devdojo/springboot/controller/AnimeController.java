@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -30,33 +29,38 @@ public class AnimeController {
     public ResponseEntity<Page<Animes>> list(Pageable pageable) {
         return ResponseEntity.ok(animeService.listAll(pageable));
     }
+
     @GetMapping(path = "/all")
-    @PreAuthorize("@animesAllCondition.isAuthorized")
+    @PreAuthorize("@animesAllCondition.hasReadAuthorization")
     public ResponseEntity<List<Animes>> listAll() {
         return ResponseEntity.ok(animeService.listAllNonPageable());
     }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<Animes> findByID(@PathVariable long id) {
         return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
+
     @GetMapping(path = "/find/{name}")
     public ResponseEntity<List<Animes>> findByName(@PathVariable String name) {
         return ResponseEntity.ok(animeService.findByName(name));
     }
+
     @PostMapping
-    public ResponseEntity<Animes> save(@RequestBody @Valid AnimePostRequestBody animePostRequestBody){
+    public ResponseEntity<Animes> save(@RequestBody @Valid AnimePostRequestBody animePostRequestBody) {
         log.info(animePostRequestBody);
         return new ResponseEntity<>(animeService.save(animePostRequestBody), HttpStatus.CREATED);
     }
+
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id){
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         animeService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody AnimePutRequestBody animePutRequestBody){
+    public ResponseEntity<Void> replace(@RequestBody AnimePutRequestBody animePutRequestBody) {
         animeService.replace(animePutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-// http://localhost:8080/animes/list

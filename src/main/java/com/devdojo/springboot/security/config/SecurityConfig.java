@@ -32,7 +32,7 @@ public class SecurityConfig {
 
         UserDetails user = User.withUsername("admin")
                 .password(encoder.encode("pass"))
-                .authorities("read", "write")
+                .authorities("write", "read")
                 .build();
 
         UserDetails user1 = User.withUsername("client")
